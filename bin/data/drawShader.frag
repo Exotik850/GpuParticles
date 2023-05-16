@@ -1,12 +1,12 @@
-﻿#version 330
+﻿#version 330 core
 
-in vec4 vertColor;
-out vec4 outColor;
+// Input color from the vertex shader
+in vec4 frag_color;
 
-void main()
-{
-    if (dot(gl_PointCoord - 0.5, gl_PointCoord - 0.5) > 0.25)
-    discard;
-    else
-    outColor = vertColor;
+// Output color to the screen
+out vec4 out_color;
+
+void main() {
+    // Set the output color
+    out_color = frag_color;
 }

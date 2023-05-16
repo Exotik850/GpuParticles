@@ -5,6 +5,7 @@ layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
 struct Particle {
     vec2 position;
     vec2 velocity;
+    vec4 color;
 };
 
 layout(std430, binding = 0) buffer ParticleBuffer {
@@ -100,7 +101,7 @@ void main() {
 //    particle.velocity += 5 * noiseForce * deltaTime;
 
     particle.velocity += force;
-    particle.position += particle.velocity * deltaTime;
+    particle.position += particle.velocity * (deltaTime + 0.1);
 
     particles[index] = particle;
 }

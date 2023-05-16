@@ -1,18 +1,17 @@
-﻿#version 330
+﻿#version 330 core
 
-uniform sampler2DRect position; // position
+// Vertex attributes (match the vertex attribute pointers in the function)
+layout(location = 0) in vec2 in_position;
+layout(location = 1) in vec4 in_color;
 
-in vec2 texcoord;
+uniform vec2 dimensons;
+// Output color to the fragment shader
+out vec4 frag_color;
 
-out vec4 vertColor;
+void main() {
+    // Set the position of the vertex
+    gl_Position = vec4(in_position * 0.001, 0.0, 1.0);
 
-void main()
-{
-    vec4 texel0 = texture(position, texcoord);
-    vec4 pos = vec4(texel0.xyz, 1);
-
-    gl_Position = pos;
-
-    vec4 color = vec4(1.0, 1.0, 1.0, 0.2);
-    vertColor = color;
+    // Pass the color to the fragment shader
+    frag_color = in_color;
 }

@@ -13,7 +13,7 @@ void ofApp::setup(){
     ofEnableSmoothing();
     glPointSize(2);
     mouse = {};
-    ps = ParticleSystem(1000, TEX_WIDTH, TEX_HEIGHT);
+    ps = ParticleSystem(100000, TEX_WIDTH, TEX_HEIGHT);
 }
 
 //--------------------------------------------------------------

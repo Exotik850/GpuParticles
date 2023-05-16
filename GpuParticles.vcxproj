@@ -201,6 +201,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="bin\data\data\drawShader.frag" />
     <Content Include="bin\data\data\drawShader.vert" />
     <Content Include="bin\data\data\updateShader.frag" />

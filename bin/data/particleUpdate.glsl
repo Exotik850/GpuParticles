@@ -17,12 +17,12 @@ uniform vec2 dimensions;
 uniform float deltaTime;
 uniform float time;
 
-const float separationRadius = 25;
+const float separationRadius = 75;
 const float separationWeight = 4;
 const float alignmentRadius = 25;
-const float alignmentWeight = 3;
+const float alignmentWeight = 10;
 const float cohesionRadius = 100;
-const float cohesionWeight = 2;
+const float cohesionWeight = 1;
 const float maxSpeed = 150;
 const float maxForce = 30;
 

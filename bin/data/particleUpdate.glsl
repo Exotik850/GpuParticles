@@ -16,6 +16,7 @@ uniform int numParticles;
 uniform vec2 dimensions;
 uniform vec2 mouse;
 uniform float deltaTime;
+uniform float time;
 uniform float gravity;
 uniform float noiseScale;
 uniform float noiseSpeed;
@@ -23,7 +24,6 @@ uniform float noiseSpeed;
 float SimplexPerlin2D( vec2 P )
 {
     //  https://github.com/BrianSharpe/Wombat/blob/master/SimplexPerlin2D.glsl
-
     //  simplex math constants
     const float SKEWFACTOR = 0.36602540378443864676372317075294;            // 0.5*(sqrt(3.0)-1.0)
     const float UNSKEWFACTOR = 0.21132486540518711774542560974902;          // (3.0-sqrt(3.0))/6.0
@@ -64,6 +64,15 @@ float SimplexPerlin2D( vec2 P )
     return dot(m*m, grad_results) * FINAL_NORMALIZATION;
 }
 
+vec2 limit(vec2 p, float len) {
+    float dist = length(p);
+    if (dist > len) {
+        p /= dist;
+        p *= len;
+    }
+    return p;
+}
+
 void main() {
     int index = int(gl_GlobalInvocationID.x);
 
@@ -74,20 +83,7 @@ void main() {
     Particle particle = particles[index];
     vec2 pos = particle.position;
 
-    // Wrap position around edges of screen
-    if (pos.x < 0) {
-        pos.x = dimensions.x;
-    } else if (pos.x >= dimensions.x) {
-        pos.x = 0;
-    }
-    if (pos.y < 0) {
-        pos.y = dimensions.y;
-    } else if (pos.y >= dimensions.y) {
-        pos.y = 0;
-    }
-
     // Calculate noise offset based on particle position and time
-    float time = float(gl_GlobalInvocationID.y) * deltaTime * noiseSpeed;
     vec2 noisePos = pos * noiseScale + vec2(time, time);
     float noiseVal = SimplexPerlin2D(noisePos);
 
@@ -98,10 +94,23 @@ void main() {
 
     // Add noise force to velocity
     vec2 noiseForce = vec2(cos(noiseVal), sin(noiseVal));
-//    particle.velocity += 5 * noiseForce * deltaTime;
+    particle.velocity += 10 * noiseForce * deltaTime;
+    particle.velocity = limit(particle.velocity, 5.0);
+    
 
-    particle.velocity += force;
+//    particle.velocity += force;
     particle.position += particle.velocity * (deltaTime + 0.1);
+    // Wrap position around edges of screen
+    if (particle.position.x < 0) {
+        particle.position.x += dimensions.x;
+    } else if (particle.position.x >= dimensions.x) {
+        particle.position.x -= dimensions.x;
+    }
+    if (particle.position.y < 0) {
+        particle.position.y += dimensions.y;
+    } else if (particle.position.y >= dimensions.y) {
+        particle.position.y -= dimensions.y;
+    }
 
     particles[index] = particle;
 }

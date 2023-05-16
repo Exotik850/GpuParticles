@@ -34,6 +34,7 @@ public:
         m_computeShader.setUniform2f("mouse", mouse);
         m_computeShader.setUniform1f("gravity", 98.0f);
         m_computeShader.setUniform1f("deltaTime", dt);
+        m_computeShader.setUniform1f("time", ofGetElapsedTimef());
         m_computeShader.setUniform1f("noiseScale", 0.1f);
         m_computeShader.setUniform1f("noiseSpeed", 0.01f);
         m_computeShader.dispatchCompute(m_numParticles / 1024 + 1, 1, 1);
@@ -83,7 +84,7 @@ private:
         Particle() :
             position(ofVec2f(0, 0)),
             velocity(ofVec2f(0, 0)),
-            color(ofFloatColor(ofRandom(1.0f), ofRandom(1.0f), ofRandom(1.0f), 1.0f)) {}
+            color(ofFloatColor(ofRandom(1.0f), ofRandom(1.0f), ofRandom(1.0f), 0.1f)) {}
     };
 
     ofShader m_computeShader, m_drawShader;

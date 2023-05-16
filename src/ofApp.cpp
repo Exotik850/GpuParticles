@@ -10,8 +10,10 @@ void ofApp::setup(){
     // velocity.swap();
     // drawShader.load("drawShader");
     // updateShader.load("updateShader");
+    ofEnableSmoothing();
+    glPointSize(2);
     mouse = {};
-    ps = ParticleSystem(TEX_WIDTH * TEX_HEIGHT, TEX_WIDTH, TEX_HEIGHT);
+    ps = ParticleSystem(1000, TEX_WIDTH, TEX_HEIGHT);
 }
 
 //--------------------------------------------------------------
@@ -19,7 +21,6 @@ void ofApp::update(){
     ofBackground(0);
     float dt = ofGetLastFrameTime();
     ps.update(dt, mouse);
-    printf("Updated %f\n", dt);
     // position.begin();
     // position.getFbo().activateAllDrawBuffers();
     // updateShader.begin();
